@@ -1,3 +1,12 @@
+#СДЕЛАНЫ ЗАДАНИЯ:
+#3,8,9,12,25,34,42
+#
+# удаляем
+# def taskN():
+# ...
+# taskN()
+#
+#
 #вспомогательная функция чтобы выводить матрицы 
 def show_matrix(arr):
     for i in range(len(arr)):
@@ -61,6 +70,45 @@ def task_8():
     print(*result)
 #print(task_8())
 
+def task9():
+    import random
+
+    def my_max(arr):
+        current_max = arr[0]
+        for x in arr:
+            if current_max < x:
+                current_max = x
+        return current_max
+ 
+    matrix = [[0] * 7 for _ in range(5)]
+
+
+    for i in range(5): 
+        for j in range(7):
+            matrix[i][j] = random.randint(-10, 10)
+
+    print('Первоначальная матрица')
+    for z in range(5):
+        for y in range(7):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+
+    for a in range(5):
+        biggest_elem = my_max(matrix[a])
+        print(f'Наибольший элемент {biggest_elem}, первый элемент {matrix[a][0]}')
+        if biggest_elem != matrix[a][0]:
+            biggest_elem_index = matrix[a].index(biggest_elem)
+            matrix[a][biggest_elem_index], matrix[a][0] = matrix[a][0], biggest_elem
+        print(f'Ряд сейчас {matrix[a]}')
+        print()
+    
+    print('Результат')
+    for z in range(5):
+        for y in range(7):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+#task9()
+
 #12. В матрице А размером 6 × 7 удалить столбец и строку, на пересечении 
 #которых находится максимальный элемент матрицы. 
 
@@ -90,6 +138,111 @@ def task_12():
     print('Матрица после удаления строки и столбца:')
     show_matrix(matrix)
 #task_12()
+
+def task18():
+    import random
+
+    n = int(input('Введите высоту матрицы: '))
+    m = int(input('Введите длину матрицы: '))
+
+    matrix = [[0] * m for _ in range(n)]
+
+    for i in range(n): 
+        for j in range(m):
+            matrix[i][j] = random.randint(-10, 10)
+
+    print('Первоначальная матрица')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+
+    for a in range(n):
+        print(f'Ряд на начало: {matrix[a]}')
+        
+        max_elem = None
+        last_index = -1
+        
+        for i in range(len(matrix[a])):
+            if matrix[a][i] < 0:
+                last_index = i
+                break
+            if max_elem is None or matrix[a][i] > max_elem:
+                max_elem = matrix[a][i]
+
+        if max_elem is not None and last_index != -1:
+            print(f'Наибольший перед отрицательным {max_elem}, последний отрицательный {matrix[a][last_index]}')
+            max_index = matrix[a].index(max_elem)
+            matrix[a][max_index], matrix[a][last_index] = matrix[a][last_index], matrix[a][max_index]
+        else: 
+            print('Нет отрицательных или отрицательный первое.')
+        print(f'Ряд сейчас {matrix[a]}')
+        print()
+
+    print('Результат:')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+#task18()
+
+def task25(): # ЕСЛИ КОЛ-ВО ОТРИЦАТЕЛЬНЫХ ЧИСЕЛ ОДИНАКОВОЕ, ЗДЕСЬ НАХОДИМ ТОЛЬКО ПЕРВУЮ МАКСИМАЛЬНУЮ СТРОКУ И ПЕРВУЮ МИНИМАЛЬНУЮ
+    import random
+
+    def my_max(arr):
+        current_max = arr[0]
+        for x in arr:
+            if current_max < x:
+                current_max = x
+        return current_max
+    
+    def my_min(arr):
+        current_min = arr[0]
+        for x in arr:
+            if current_min < x:
+                current_min = x
+        return current_min
+
+    n = 6  
+    m = 5  
+
+    matrix = [[0] * m for _ in range(n)]
+
+    for i in range(n): 
+        for j in range(m):
+            matrix[i][j] = random.randint(-10, 10)
+
+    print('Первоначальная матрица')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+
+    neg_counts = []
+    for a in range(n):
+        cur_neg_count = 0
+        for x in matrix[a]:
+            if x < 0:
+                cur_neg_count += 1
+        neg_counts.append(cur_neg_count)
+        print(f'Ряд сейчас: {matrix[a]}, количество отрицательных чисел: {cur_neg_count}')
+
+    max_value = my_max(neg_counts)
+    min_value = my_min(neg_counts)
+
+    max_indices = [i for i, count in enumerate(neg_counts) if count == max_value]
+    min_indices = [i for i, count in enumerate(neg_counts) if count == min_value]
+
+    if max_indices and min_indices:
+        matrix[min_indices[0]], matrix[max_indices[0]] = matrix[max_indices[0]], matrix[min_indices[0]]
+
+
+    print('Результат:')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+#task25()
 
 #34. Дана матрица A размером 5 × 7. Для каждой строки сравнить элементы, 
 #расположенные непосредственно перед и после максимального 
@@ -154,3 +307,34 @@ def task_34():
     print('Ответ:')
     show_matrix(matrix)
 #task_34()
+
+def task42(): 
+    import random
+
+    n = 6  
+    m = 7  
+
+    matrix = [[0] * m for _ in range(n)]
+
+    for i in range(n): 
+        for j in range(m):
+            matrix[i][j] = random.randint(-10, 10)
+
+    print('Первоначальная матрица')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+
+    for a in range(n):
+        print(f'Ряд в начале: {matrix[a]}')
+        matrix[a] = matrix[a][::-1]
+        print(f'Ряд сейчас: {matrix[a]}')
+        print()
+
+    print('Результат:')
+    for z in range(n):
+        for y in range(m):
+            print("{:4}".format(matrix[z][y]), end="")
+        print()
+#task42()
